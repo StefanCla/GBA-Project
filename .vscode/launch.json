@@ -1,0 +1,77 @@
+{
+    "configurations": [
+        {
+            "name": "Debug (NO$GBA)",
+            "preLaunchTask": "make debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "${workspaceFolder}/${workspaceFolderBasename}.elf",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "windows": {
+                "miDebuggerPath": "X:/devkitPro/devkitARM/bin/arm-none-eabi-gdb.exe",
+                "setupCommands": [
+                    {
+                        "ignoreFailures": false,
+                        "text": "shell start /b \"\" \"X:/gba_emulators/NO$GBA/NO$GBA.EXE\" \"${workspaceFolder}/${workspaceFolderBasename}.elf\""
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Debug (mGBA)",
+            "preLaunchTask": "make debug",
+            "postDebugTask": "close mGBA emulator",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "${workspaceFolder}/${workspaceFolderBasename}.elf",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerServerAddress": "localhost:2345",
+            "windows": {
+                "miDebuggerPath": "X:/devkitPro/devkitARM/bin/arm-none-eabi-gdb.exe",
+                "setupCommands": [
+                    {
+                        "ignoreFailures": false,
+                        "text": "shell start /b \"\" \"X:/gba_emulators/mGBA/mGBA.exe\" -g \"${workspaceFolder}/${workspaceFolderBasename}.elf\""
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Release (mGBA)",
+            "preLaunchTask": "make release",
+            "postDebugTask": "close mGBA emulator",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "${workspaceFolder}/${workspaceFolderBasename}.elf",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerServerAddress": "localhost:2345",
+            "windows": {
+                "miDebuggerPath": "X:/devkitPro/devkitARM/bin/arm-none-eabi-gdb.exe",
+                "setupCommands": [
+                    {
+                        "ignoreFailures": true,
+                        "text": "shell start /b \"\" \"X:/gba_emulators/mGBA/mGBA.exe\" -g \"${workspaceFolder}/${workspaceFolderBasename}.gba\""
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "close mGBA emulator",
+            "type": "shell",
+            "windows": {
+                "command": "taskkill /im mGBA.exe /F"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "make debug",
+            "isBuildCommand": true,
+            "dependsOn": "clean",
+            "type": "process",
+            "command": "make",
+            "args": ["DEBUG=1"],
+            "problemMatcher": []
+        },
+        {
+            "label": "make release",
+            "dependsOn": "clean",
+            "type": "process",
+            "command": "make",
+            "args": ["DEBUG=0"],
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make clean",
+            "windows": {
+                "command": "copy gba_rules build/"
+            },
+            "problemMatcher": []
+        }
+    ]
+    }
