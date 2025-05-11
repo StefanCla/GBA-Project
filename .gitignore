@@ -54,3 +54,6 @@ dkms.conf
 # GBA Specific
 *.gba
 *.sav
+
+# VSCode
+*.code-workspace
