@@ -1,11 +1,4 @@
-#define MEM_IO 0x04000000
-#define MEM_VRAM 0x06000000
-
-#define REG_DISPCNT *((volatile unsigned int*)(MEM_IO+0x0000))
-#define VID_MEM ((unsigned short*)MEM_VRAM)
-
-#define DCNT_BG2 0x0400
-#define DCNT_MODE3 0x0003
+#include "core.h"
 
 int main()
 {
