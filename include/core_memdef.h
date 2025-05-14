@@ -18,17 +18,6 @@
 #define MEM_SAV     0x0E000000  // Save data, length isn't fixed but 64KB is good indication. 8 bit write bus
 
 //Access above memory map
-#define REG_DISPCNT     *(vu32*)(MEM_IO)
-#define REG_DISPSTAT    *(vu16*)(MEM_IO+0x0004)
-#define REG_VCOUNT      *(vu16*)(MEM_IO+0x0006)
-
 #define VID_MEM ((u16*)MEM_VRAM)
-
-
-//Background control
-#define DCNT_BG2    0x0400
-#define DCNT_MODE3  0x0003
-
-#define REG_KEYINPUT *(vu16*)0x04000130
 
 #endif //CORE_MEMDEF
