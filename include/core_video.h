@@ -14,7 +14,7 @@
 #define VMODE_1     1
 #define VMODE_2     2
 #define VMODE_3     3
-#define VMODE_4     4
+#define VMODE_4     4   //Mode 4 Note: can only plot pixels in half or full words. No byte writes allowed!
 #define VMODE_5     5
 
 //Background modes
