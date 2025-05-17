@@ -57,3 +57,6 @@ dkms.conf
 
 # VSCode
 *.code-workspace
+
+# Others
+development_progress/
