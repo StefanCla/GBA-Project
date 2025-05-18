@@ -32,6 +32,8 @@ int main()
     bool bIsFront = true;
     u32* Dest = (u32*)FrontPage;
 
+    int i = 0;
+
     while(1)
     {
         vsync();
@@ -45,30 +47,35 @@ int main()
         {
         }
 
-        //Flip between pages
-        if(bIsFront)
-        {
-            Dest = (u32*)BackPage;
-            REG_DISPCNT = 0x0; //Set 4th bit to indicate what page to use
-            ColorOne = 0xFF;
-            ColorTwo = 0xFF;
-            bIsFront = false;
-        }
-        else if(!bIsFront)
-        {
-            Dest = (u32*)FrontPage;
-            REG_DISPCNT = 0xF;  //Set 4th bit to indicate what page to use
-            ColorOne = 0x00;
-            ColorTwo = 0x00;
-            bIsFront = true;
-        }
 
-        NewColor = (ColorOne << 24) | (ColorTwo << 16) | (ColorOne << 8) | ColorTwo;
-        *Pal = NewColor;
-
-        for(u32 i = 0; i < MAX_MODE4_SIZE; i++)
+        if(++i >= 60)
         {
-            *Dest++ = NewColor;
+            //Flip between pages
+            if(bIsFront)
+            {
+                Dest = (u32*)BackPage;
+                REG_DISPCNT = 0x0; //Set 4th bit to indicate what page to use
+                ColorOne = 0xFF;
+                ColorTwo = 0xFF;
+                bIsFront = false;
+            }
+            else if(!bIsFront)
+            {
+                Dest = (u32*)FrontPage;
+                REG_DISPCNT = 0xF;  //Set 4th bit to indicate what page to use
+                ColorOne = 0x00;
+                ColorTwo = 0x00;
+                bIsFront = true;
+            }
+
+            NewColor = (ColorOne << 24) | (ColorTwo << 16) | (ColorOne << 8) | ColorTwo;
+            *Pal = NewColor;
+
+            for(u32 i = 0; i < MAX_MODE4_SIZE; i++)
+            {
+                *Dest++ = NewColor;
+            }
+            i = 0;
         }
     }
 

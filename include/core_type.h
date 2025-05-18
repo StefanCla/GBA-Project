@@ -32,4 +32,16 @@ typedef volatile s64    vs64;
 typedef enum { false, true } bool;
 #endif
 
+//Section placement
+#define EWRAM_DATA  __attribute__((section(".ewram")))
+#define IWRAM_DATA  __attribute__((section(".iwram")))
+#define EWRAM_BSS   __attribute__((section(".sbss")))
+
+#define EWRAM_CODE  __attribute__((section(".ewram"), long_call))
+#define IWRAM_CODE  __attribute__((section(".iwram"), long_call))
+
+//Data alignment
+#define ALIGN(n)    __attribute__((aligned(n)))
+#define PACKED      __attribute__((packed))
+
 #endif //CORE_TYPE
