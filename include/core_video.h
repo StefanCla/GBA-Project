@@ -9,6 +9,8 @@
 #define REG_DISPSTAT    *(vu32*)(MEM_IO+0x0004)     //Display stats register
 #define REG_VCOUNT      *(vu32*)(MEM_IO+0x0006)     //Vertical scanline counter
 
+#define VID_MEM (u16*)(MEM_VRAM)
+
 //Video modes
 #define VMODE_0     0
 #define VMODE_1     1

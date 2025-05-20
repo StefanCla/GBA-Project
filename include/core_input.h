@@ -13,7 +13,6 @@
 *
 * Note: Bits are cleared when key is down, not set
 */
-#define REG_KEYINPUT *(vu16*)(MEM_IO+0x130)
 
 //Keys
 #define KEY_A        0x0001
