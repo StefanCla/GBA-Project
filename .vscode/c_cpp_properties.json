@@ -1,7 +1,8 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "GBA",
+            "compilerPath": "X:/devkitPro/devkitARM/bin/arm-none-eabi-gcc.exe",
             "includePath": [
                 "${workspaceFolder}",
                 "${workspaceFolder}/include",
@@ -9,13 +10,10 @@
                 "X:/devkitPro/devkitARM/lib/gcc/arm-none-eabi/13.2.0/include"
             ],
             "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE",
-                "ARM7",
-                "WIN32"
+                "DEBUG",
+                "RELEASE"
             ],
-            "intelliSenseMode": "msvc-x64",
+            "intelliSenseMode": "gcc-arm",
             "browse": {
                 "path": [
                     "${workspaceFolder}",
@@ -26,8 +24,8 @@
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
             },
-            "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cStandard": "c11"
+            //"cppStandard": "c++17" //This project will only be written in C
         }
     ],
     "version": 4
