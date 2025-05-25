@@ -4,10 +4,16 @@
         {
             "label": "close mGBA emulator",
             "type": "shell",
-            "windows": {
-                "command": "taskkill /im mGBA.exe /F"
-            },
-            "problemMatcher": []
+            "command": "taskkill /im mGBA.exe /F || true",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
         },
         {
             "label": "make debug",
@@ -16,7 +22,15 @@
             "type": "process",
             "command": "make",
             "args": ["DEBUG=1"],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
         },
         {
             "label": "make release",
@@ -24,7 +38,15 @@
             "type": "process",
             "command": "make",
             "args": ["DEBUG=0"],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
         },
         {
             "label": "clean",
@@ -33,7 +55,15 @@
             "windows": {
                 "command": "copy gba_rules build/"
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            }
         }
     ]
     }
