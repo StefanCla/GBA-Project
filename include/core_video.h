@@ -9,7 +9,7 @@
 #define REG_DISPSTAT    *(vu32*)(MEM_IO+0x0004)     //Display stats register
 #define REG_VCOUNT      *(vu32*)(MEM_IO+0x0006)     //Vertical scanline counter
 
-#define VID_MEM (u16*)(MEM_VRAM)
+#define VID_MEM         (u16*)(MEM_VRAM)
 
 //Video modes
 #define VMODE_0     0
@@ -26,13 +26,13 @@
 #define BG_3    2048
 #define BG_OBJ  4096
 
+//Sprite mapping layout
+#define OBJ_ENABLE_1D   64  //Use 1D mapping for sprite memory layout (default is 2D)
+
 // Notes:
 // index 0 = transparency
 // Each pallet can be used as either: 1 pallet of 8 bits per pixel, or 16 pallets of 4 bits per pixel
-#define PAL_BG MEM_PAL              //Background pallet starts at 0x05000000 and ends @ 0x050001FF
-#define PAL_SPRITE MEM_PAL+0x200    //Sprite pallet starts at 0x05000200 and ends @ 0x050003FF
-
-
-
+#define PAL_BG      (u16*)(MEM_PAL)              //Background pallet starts at 0x05000000 and ends @ 0x050001FF
+#define PAL_SPRITE  (u16*)(MEM_PAL+0x00200)    //Sprite pallet starts at 0x05000200 and ends @ 0x050003FF
 
 #endif //CORE_VIDEO

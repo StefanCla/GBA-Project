@@ -44,4 +44,27 @@ typedef enum { false, true } bool;
 #define ALIGN(n)    __attribute__((aligned(n)))
 #define PACKED      __attribute__((packed))
 
+//Object datatype
+typedef struct OBJ_ATTRIBUTE
+{
+    u16 attrib0;
+    u16 attrib1;
+    u16 attrib2;
+    s16 filler;
+} ALIGN(4) OBJ_ATTRIBUTE;
+
+//Affine object data type
+//Note: 4 regular objects fit in 1 affine object
+typedef struct OBJ_AFFINE
+{
+    u16 filler0[3];
+    s16 pa;
+    u16 filler1[3];
+    s16 pb;
+    u16 filler2[3];
+    s16 pc;
+    u16 filler3[3];
+    s16 pd;
+} ALIGN(4) OBJ_AFFINE;
+
 #endif //CORE_TYPE
