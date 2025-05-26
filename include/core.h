@@ -7,5 +7,6 @@
 #include "core_memdef.h"
 #include "core_input.h"
 #include "core_video.h"
+#include "core_oam.h"
 
 #endif //CORE
