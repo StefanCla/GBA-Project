@@ -47,4 +47,6 @@ static inline u32 key_held(u32 key)     { return (key_current & key_previous) & 
 static inline u32 key_pressed(u32 key)  { return (key_current & ~key_previous) & key; } //Key is now pressed, was released before
 static inline u32 key_released(u32 key) { return (~key_current & key_previous) & key; } //Key is now released, was pressed before
 
+static inline u32 is_any_key_pressed()  { return (key_current & KEY_MASK); }
+
 #endif //CORE_INPUT

@@ -51,5 +51,4 @@
 #define VRAM_BLOCK_4    (u32*)(MEM_VRAM + 0x010000)    //Block 4 | Beginning of sprite location
 #define VRAM_BLOCK_5    (u32*)(MEM_VRAM + 0x014000)    //Block 5 | Last block of sprite location
 
-
 #endif //CORE_MEMDEF
