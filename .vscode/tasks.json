@@ -21,7 +21,7 @@
             "dependsOn": "clean",
             "type": "process",
             "command": "make",
-            "args": ["DEBUG=1"],
+            "args": ["bDEBUG=1"],
             "problemMatcher": [],
             "presentation": {
                 "echo": true,
@@ -37,7 +37,7 @@
             "dependsOn": "clean",
             "type": "process",
             "command": "make",
-            "args": ["DEBUG=0"],
+            "args": ["bDEBUG=0"],
             "problemMatcher": [],
             "presentation": {
                 "echo": true,
@@ -53,7 +53,7 @@
             "type": "shell",
             "command": "make clean",
             "windows": {
-                "command": "copy gba_rules build/"
+                "command": "mkdir -p build && copy gba_rules build/"
             },
             "problemMatcher": [],
             "presentation": {

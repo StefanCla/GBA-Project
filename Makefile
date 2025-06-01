@@ -42,7 +42,8 @@ TITLE		:= $(PROJ)
 #LIBS		:= -ltonc -lgfx
 
 BUILD		:= build
-SRCDIRS		:= source
+SRCDIR		:= source
+SRCDIRS		:= ${shell find ${SRCDIR} -type d -print}
 DATADIRS	:= #data
 INCDIRS		:= include
 LIBDIRS		:= libs #$(TONCCODE)/tonclib
