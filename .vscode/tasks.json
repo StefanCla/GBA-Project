@@ -21,7 +21,7 @@
             "dependsOn": "clean",
             "type": "process",
             "command": "make",
-            "args": ["bDEBUG=1"],
+            "args": ["DEBUG=1"],
             "problemMatcher": [],
             "presentation": {
                 "echo": true,
@@ -38,7 +38,7 @@
             "dependsOn": "clean",
             "type": "process",
             "command": "make",
-            "args": ["bDEBUG=2"],
+            "args": ["DEBUG=2"],
             "problemMatcher": [],
             "presentation": {
                 "echo": true,
@@ -54,7 +54,7 @@
             "dependsOn": "clean",
             "type": "process",
             "command": "make",
-            "args": ["bDEBUG=0"],
+            "args": ["DEBUG=0"],
             "problemMatcher": [],
             "presentation": {
                 "echo": true,

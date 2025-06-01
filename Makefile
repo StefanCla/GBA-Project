@@ -96,12 +96,12 @@ endif
 
 # --- Debug info ? ---
 
-ifeq ($(strip $(bDEBUG)), 2)			# Used for mGBA | -g = -gdwarf-5 at time of project
+ifeq ($(strip $(DEBUG)), 2)			# Used for mGBA | -g = -gdwarf-5 at time of project
 	CFLAGS		+= -DDEBUG -g
 	CXXFLAGS	+= -DDEBUG -g
 	ASFLAGS		+= -DDEBUG -g
 	LDFLAGS		+= -g
-else ifeq ($(strip $(bDEBUG)), 1)		# Used for NO$GBA
+else ifeq ($(strip $(DEBUG)), 1)		# Used for NO$GBA
 	CFLAGS		+= -DDEBUG -gdwarf-4
 	CXXFLAGS	+= -DDEBUG -gdwarf-4
 	ASFLAGS		+= -DDEBUG -gdwarf-4
