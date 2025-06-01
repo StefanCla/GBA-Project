@@ -8,7 +8,6 @@ OBJ_ATTRIBUTE obj_buffer[128];
 
 const u32 SPRITE_SIZE = 16;
 
-
 //Objects must be initialized before they can be shown on screen
 void init_objects()
 {
@@ -121,14 +120,12 @@ int main()
 
 		if(key_pressed(KEY_LEFT) || key_held(KEY_LEFT))
 		{
-			frame_count++;
 			object1->attrib1 &= ~ATTRIB1_HFLIP;
 			id = 3;
 			x1 += -1;
 		}
 		else if(key_pressed(KEY_RIGHT) || key_held(KEY_RIGHT))
 		{
-			frame_count++;
 			object1->attrib1 |= ATTRIB1_HFLIP;
 			id = 3;
 			x1 += 1;
@@ -136,13 +133,11 @@ int main()
 
         if(key_pressed(KEY_UP) || key_held(KEY_UP))
         {
-			frame_count++;
 			id = 6;
 			y1 += -1;
         }
         else if(key_pressed(KEY_DOWN) || key_held(KEY_DOWN))
         {
-			frame_count++;
 			id = 0;
 			y1 += 1;
         }
@@ -150,6 +145,11 @@ int main()
 		if(!is_any_key_pressed())
 		{
 			sprite_id = 0;
+			frame_count = 0;
+		}
+		else
+		{
+			frame_count++;
 		}
 
 		set_object_id(object1, ((id + sprite_id) * SPRITE_SIZE));
