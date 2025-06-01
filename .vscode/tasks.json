@@ -52,9 +52,6 @@
             "label": "clean",
             "type": "shell",
             "command": "make clean",
-            "windows": {
-                "command": "mkdir -p build && copy gba_rules build/"
-            },
             "problemMatcher": [],
             "presentation": {
                 "echo": true,

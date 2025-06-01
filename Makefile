@@ -166,8 +166,9 @@ all	: $(BUILD)
 
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
-
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba $(TARGET).sav
+	@mkdir -p $(BUILD)
+	@cp gba_rules $(BUILD)/
 
 else		# If we're here, we should be in the BUILD dir
 
