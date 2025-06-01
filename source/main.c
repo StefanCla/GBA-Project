@@ -8,6 +8,7 @@ OBJ_ATTRIBUTE obj_buffer[128];
 
 const u32 SPRITE_SIZE = 16;
 
+
 //Objects must be initialized before they can be shown on screen
 void init_objects()
 {
