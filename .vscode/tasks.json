@@ -16,12 +16,29 @@
             }
         },
         {
-            "label": "make debug",
+            "label": "make debug NO$GBA",
             "isBuildCommand": true,
             "dependsOn": "clean",
             "type": "process",
             "command": "make",
             "args": ["bDEBUG=1"],
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "make debug mGBA",
+            "isBuildCommand": true,
+            "dependsOn": "clean",
+            "type": "process",
+            "command": "make",
+            "args": ["bDEBUG=2"],
             "problemMatcher": [],
             "presentation": {
                 "echo": true,

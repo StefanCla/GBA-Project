@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "Debug (NO$GBA)",
-            "preLaunchTask": "make debug",
+            "preLaunchTask": "make debug NO$GBA",
             "type": "cppdbg",
             "request": "launch",
             "targetArchitecture": "arm",
@@ -25,7 +25,7 @@
         },
         {
             "name": "Debug (mGBA)",
-            "preLaunchTask": "make debug",
+            "preLaunchTask": "make debug mGBA",
             "postDebugTask": "close mGBA emulator",
             "type": "cppdbg",
             "request": "launch",
