@@ -69,7 +69,7 @@ IARCH   := -mthumb-interwork -marm -mlong-calls
 
 # --- Main flags ---
 
-CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi -O2
+CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi
 CFLAGS		+= -Wall
 CFLAGS		+= $(INCLUDE)
 CFLAGS		+= -ffast-math -fno-strict-aliasing
@@ -97,19 +97,19 @@ endif
 # --- Debug info ? ---
 
 ifeq ($(strip $(DEBUG)), 2)			# Used for mGBA | -g = -gdwarf-5 at time of project
-	CFLAGS		+= -DDEBUG -g
+	CFLAGS		+= -DDEBUG -g -Og
 	CXXFLAGS	+= -DDEBUG -g
 	ASFLAGS		+= -DDEBUG -g
 	LDFLAGS		+= -g
 else ifeq ($(strip $(DEBUG)), 1)		# Used for NO$GBA
-	CFLAGS		+= -DDEBUG -gdwarf-4
+	CFLAGS		+= -DDEBUG -gdwarf-4 -Og
 	CXXFLAGS	+= -DDEBUG -gdwarf-4
 	ASFLAGS		+= -DDEBUG -gdwarf-4
 	LDFLAGS		+= -gdwarf-4
 else
-	CFLAGS		+= -DNDEBUG
-	CXXFLAGS	+= -DNDEBUG
-	ASFLAGS		+= -DNDEBUG
+	CFLAGS		+= -DNDEBUG -O2
+	CXXFLAGS	+= -DNDEBUG -O2
+	ASFLAGS		+= -DNDEBUG -O2
 endif
 
 
