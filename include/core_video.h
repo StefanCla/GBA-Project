@@ -5,10 +5,6 @@
 
 #include "core_memdef.h"
 
-#define REG_DISPCNT     *(vu32*)(MEM_IO)            //Display control register
-#define REG_DISPSTAT    *(vu32*)(MEM_IO+0x0004)     //Display stats register
-#define REG_VCOUNT      *(vu32*)(MEM_IO+0x0006)     //Vertical scanline counter
-
 #define VID_MEM         (u16*)(MEM_VRAM)
 
 //Video modes
