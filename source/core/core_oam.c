@@ -1,5 +1,5 @@
-#include "core_oam.h"
-#include "core_memdef.h"
+#include "core/core_oam.h"
+#include "core/core_memdef.h"
 #include <string.h>     //for memcpy
 
 OBJ_ATTRIBUTE obj_buffer[128];

@@ -1,5 +1,5 @@
 #include <string.h>
-#include "core.h"
+#include "core/core.h"
 #include "sprites/emerald.h"
 #include "sprites/metroid.h"
 
