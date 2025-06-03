@@ -1,10 +1,19 @@
 #include <string.h>
 #include "core.h"
 #include "sprites/emerald.h"
+#include "sprites/metroid.h"
 
 u16 key_current = 0, key_previous = 0;
 
-const u32 SPRITE_SIZE = 16;
+const u32 EMERALD_SPRITE_SIZE = (8 * 2);	//8 tiles x 2 because of 8bpp
+const u32 METROID_SPRITE_SIZE = (64 * 2);	//64 tiles x 2 because of 8bpp
+
+const u32 EMERALD_SPRITE_COUNT = 9;
+const u32 METROID_SPRITE_COUNT = 2;
+
+//A tile is an 8x8 bitmap
+const u32 TILE_SIZE = 8;
+const u32 TILE_COUNT = 64;
 
 void vsync() //Should be changed to use interrupts
 {
@@ -16,6 +25,7 @@ int main()
 {
 	//Copy data into VRAM & pallete ram
 	memcpy(VRAM_BLOCK_4, emeraldTiles, emeraldTilesLen);
+	memcpy(VRAM_BLOCK_4 + ((EMERALD_SPRITE_SIZE * EMERALD_SPRITE_COUNT) * TILE_SIZE), metroidTiles, metroidTilesLen);
 	memcpy(PAL_SPRITE, emeraldPal, emeraldPalLen);
 
 	init_objects();
@@ -25,20 +35,36 @@ int main()
 	//Set OAM data
 	//Setting 5 objects for now
 	const u32 OBJ_COUNT = 5;
-	for(u32 i = 0; i < OBJ_COUNT; i++)
+	for(u32 i = 0; i < OBJ_COUNT; ++i)
 	{
 		set_object_attributes(&obj_buffer[i], 
-			(ATTRIB0_8BPP | ATTRIB0_TALL),
+			ATTRIB0_8BPP | ATTRIB0_TALL,
 			ATTRIB1_SIZE_16,
 			0);
 		
-		set_object_id(&obj_buffer[i], (i * SPRITE_SIZE));
+		set_object_id(&obj_buffer[i], (i * EMERALD_SPRITE_SIZE));
 
 		const u32 X_OFFSET = 30;
 		set_object_position(&obj_buffer[i], (20 + (X_OFFSET * i)), 0);
 	}
 
-	memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * OBJ_COUNT));
+	const u32 EMERALD_TILE_COUNT = EMERALD_SPRITE_SIZE * EMERALD_SPRITE_COUNT;
+
+	const u32 OBJ_COUNT_METROID = 2;
+	for(u32 i = 0; i < OBJ_COUNT_METROID; ++i)
+	{
+		set_object_attributes(&obj_buffer[OBJ_COUNT + i], 
+			ATTRIB0_8BPP,
+			ATTRIB1_SIZE_64,
+			0);
+		
+		set_object_id(&obj_buffer[OBJ_COUNT + i], (EMERALD_TILE_COUNT + (i * METROID_SPRITE_SIZE)));
+
+		const u32 X_OFFSET = 64;
+		set_object_position(&obj_buffer[OBJ_COUNT + i], (20 + (X_OFFSET * i)), 70);
+	}
+
+	memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * (OBJ_COUNT + OBJ_COUNT_METROID)));
 
 	s32 x1 = 90, y1 = 60;
 	u32 id = 0;
@@ -108,10 +134,10 @@ int main()
 			frame_count++;
 		}
 
-		set_object_id(object1, ((id + sprite_id) * SPRITE_SIZE));
+		set_object_id(object1, ((id + sprite_id) * EMERALD_SPRITE_SIZE));
 		set_object_position(object1, x1, y1);
 
-		memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * OBJ_COUNT));
+		memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * (OBJ_COUNT + OBJ_COUNT_METROID)));
 	}
 
 	return 0;
