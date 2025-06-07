@@ -3,6 +3,8 @@
 #include "sprites/emerald.h"
 #include "sprites/metroid.h"
 
+#include "tiles/brin.h"
+
 u16 key_current = 0, key_previous = 0;
 
 const u32 EMERALD_SPRITE_SIZE = (8 * 2);	//8 tiles x 2 because of 8bpp
@@ -15,7 +17,7 @@ const u32 METROID_SPRITE_COUNT = 2;
 const u32 TILE_SIZE = 8;
 const u32 TILE_COUNT = 64;
 
-void vsync() //Should be changed to use interrupts
+static inline void vsync() //Should be changed to use interrupts
 {
     while(REG_VCOUNT >= 160);
     while(REG_VCOUNT < 160);
@@ -23,14 +25,21 @@ void vsync() //Should be changed to use interrupts
 
 int main()
 {
-	//Copy data into VRAM & pallete ram
+	//Copy background data into vram & pallet ram
+	memcpy((u32*)MEM_VRAM, brinTiles, brinTilesLen);		//Char block 1
+	memcpy((u32*)(MEM_VRAM + 0x4000), brinMap, brinMapLen);	//Screen block 8
+	memcpy(PAL_BG, brinPal, brinPalLen);
+
+	//Copy sprite data into vram & pallet ram
 	memcpy(VRAM_BLOCK_4, emeraldTiles, emeraldTilesLen);
 	memcpy(VRAM_BLOCK_4 + ((EMERALD_SPRITE_SIZE * EMERALD_SPRITE_COUNT) * TILE_SIZE), metroidTiles, metroidTilesLen);
 	memcpy(PAL_SPRITE, emeraldPal, emeraldPalLen);
 
+	REG_BG0CNT = (8 << 8) | (1 << 14);// | (1 << 0);
+
 	init_objects();
 
-	REG_DISPCNT= BG_OBJ | OBJ_ENABLE_1D;
+	REG_DISPCNT= VMODE_0 | BG_0 | BG_OBJ | OBJ_ENABLE_1D;
 
 	//Set OAM data
 	//Setting 5 objects for now
