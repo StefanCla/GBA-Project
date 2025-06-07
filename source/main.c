@@ -25,12 +25,12 @@ static inline void vsync() //Should be changed to use interrupts
 
 int main()
 {
-	//Copy background data into vram & pallet ram
-	memcpy((u32*)MEM_VRAM, brinTiles, brinTilesLen);		//Char block 1
-	memcpy((u32*)(MEM_VRAM + 0x4000), brinMap, brinMapLen);	//Screen block 8
+	//Copy background data into vram & palette ram
+	memcpy((u32*)MEM_VRAM, brinTiles, brinTilesLen);			//Char block 1
+	memcpy((u32*)(MEM_VRAM + 0x4000), brinMap, brinMapLen);		//Screen block 8
 	memcpy(PAL_BG, brinPal, brinPalLen);
 
-	//Copy sprite data into vram & pallet ram
+	//Copy sprite data into vram & palette ram
 	memcpy(VRAM_BLOCK_4, emeraldTiles, emeraldTilesLen);
 	memcpy(VRAM_BLOCK_4 + ((EMERALD_SPRITE_SIZE * EMERALD_SPRITE_COUNT) * TILE_SIZE), metroidTiles, metroidTilesLen);
 	memcpy(PAL_SPRITE, emeraldPal, emeraldPalLen);
@@ -122,16 +122,16 @@ int main()
 			x1 += 1;
 		}
 
-        if(key_pressed(KEY_UP) || key_held(KEY_UP))
-        {
+		if(key_pressed(KEY_UP) || key_held(KEY_UP))
+		{
 			id = 6;
 			y1 += -1;
-        }
-        else if(key_pressed(KEY_DOWN) || key_held(KEY_DOWN))
-        {
+		}
+		else if(key_pressed(KEY_DOWN) || key_held(KEY_DOWN))
+		{
 			id = 0;
 			y1 += 1;
-        }
+		}
 
 		if(!is_any_key_pressed())
 		{

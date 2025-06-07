@@ -22,30 +22,30 @@
 
 //Registers
 //Display
-#define REG_DISPCNT     *(vu32*)(MEM_IO)            // Display control register
-#define REG_DISPSTAT    *(vu32*)(MEM_IO + 0x0004)   // Display stats register
-#define REG_VCOUNT      *(vu32*)(MEM_IO + 0x0006)   // Vertical scanline counter
+#define REG_DISPCNT     *(vu16*)(MEM_IO)            // Display control register
+#define REG_DISPSTAT    *(vu16*)(MEM_IO + 0x0004)   // Display stats register
+#define REG_VCOUNT      *(vu16*)(MEM_IO + 0x0006)   // Vertical scanline counter
 
 //Background
-#define REG_BG0CNT      *(vu32*)(MEM_IO + 0x0008)   //Background control for background 0
-#define REG_BG1CNT      *(vu32*)(MEM_IO + 0x000A)   //Background control for background 1
-#define REG_BG2CNT      *(vu32*)(MEM_IO + 0x000C)   //Background control for background 2
-#define REG_BG3CNT      *(vu32*)(MEM_IO + 0x000E)   //Background control for background 3
+#define REG_BG0CNT      *(vu16*)(MEM_IO + 0x0008)   //Background control for background 0
+#define REG_BG1CNT      *(vu16*)(MEM_IO + 0x000A)   //Background control for background 1
+#define REG_BG2CNT      *(vu16*)(MEM_IO + 0x000C)   //Background control for background 2
+#define REG_BG3CNT      *(vu16*)(MEM_IO + 0x000E)   //Background control for background 3
 
 //Background offset
-#define REG_BG0HOFS     *(vu32*)(MEM_IO + 0x0010)   //X offset (horizontal) for BG0
-#define REG_BG0VOFS     *(vu32*)(MEM_IO + 0x0012)   //Y offset (vertical) for BG0
-#define REG_BG1HOFS     *(vu32*)(MEM_IO + 0x0014)   //X offset (horizontal) for BG1
-#define REG_BG1VOFS     *(vu32*)(MEM_IO + 0x0016)   //Y offset (vertical) for BG1
-#define REG_BG2HOFS     *(vu32*)(MEM_IO + 0x0018)   //X offset (horizontal) for BG2
-#define REG_BG2VOFS     *(vu32*)(MEM_IO + 0x001A)   //Y offset (vertical) for BG2
-#define REG_BG3HOFS     *(vu32*)(MEM_IO + 0x001C)   //X offset (horizontal) for BG3
-#define REG_BG3VOFS     *(vu32*)(MEM_IO + 0x001E)   //Y offset (vertical) for BG3
+#define REG_BG0HOFS     *(vu16*)(MEM_IO + 0x0010)   //X offset (horizontal) for BG0
+#define REG_BG0VOFS     *(vu16*)(MEM_IO + 0x0012)   //Y offset (vertical) for BG0
+#define REG_BG1HOFS     *(vu16*)(MEM_IO + 0x0014)   //X offset (horizontal) for BG1
+#define REG_BG1VOFS     *(vu16*)(MEM_IO + 0x0016)   //Y offset (vertical) for BG1
+#define REG_BG2HOFS     *(vu16*)(MEM_IO + 0x0018)   //X offset (horizontal) for BG2
+#define REG_BG2VOFS     *(vu16*)(MEM_IO + 0x001A)   //Y offset (vertical) for BG2
+#define REG_BG3HOFS     *(vu16*)(MEM_IO + 0x001C)   //X offset (horizontal) for BG3
+#define REG_BG3VOFS     *(vu16*)(MEM_IO + 0x001E)   //Y offset (vertical) for BG3
 
 
 //Input
-#define REG_KEYINPUT    *(vu32*)(MEM_IO + 0x0130)   //Key input register - Used for keypresses
-#define REG_KEYCNT      *(vu32*)(MEM_IO + 0x0132)   //Key control register - Used for key interrupts
+#define REG_KEYINPUT    *(vu16*)(MEM_IO + 0x0130)   //Key input register - Used for keypresses
+#define REG_KEYCNT      *(vu16*)(MEM_IO + 0x0132)   //Key control register - Used for key interrupts
 
 //Other
 #define VRAM_BLOCK_4    (u32*)(MEM_VRAM + 0x010000)    //Block 4 | Beginning of sprite location
