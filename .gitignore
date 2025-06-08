@@ -60,3 +60,4 @@ dkms.conf
 
 # Others
 development_progress/
+*.aseprite
