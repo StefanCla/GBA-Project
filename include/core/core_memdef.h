@@ -32,7 +32,7 @@
 #define REG_BG2CNT      *(vu16*)(MEM_IO + 0x000C)   //Background control for background 2
 #define REG_BG3CNT      *(vu16*)(MEM_IO + 0x000E)   //Background control for background 3
 
-//Background offset
+//Background offset | Can't be read, only written too
 #define REG_BG0HOFS     *(vu16*)(MEM_IO + 0x0010)   //X offset (horizontal) for BG0
 #define REG_BG0VOFS     *(vu16*)(MEM_IO + 0x0012)   //Y offset (vertical) for BG0
 #define REG_BG1HOFS     *(vu16*)(MEM_IO + 0x0014)   //X offset (horizontal) for BG1
