@@ -1,7 +1,7 @@
-#include <string.h>
+#include <string.h>			//For memcpy
 #include "core/core.h"
-#include "sprites/emerald.h"
-#include "sprites/metroid.h"
+
+#include "sprites/plane.h"
 
 #include "tiles/star_night.h"
 #include "tiles/city_one.h"
@@ -13,11 +13,7 @@
 
 u16 key_current = 0, key_previous = 0;
 
-const u32 EMERALD_SPRITE_SIZE = (8 * 2);	//8 tiles x 2 because of 8bpp
-const u32 METROID_SPRITE_SIZE = (64 * 2);	//64 tiles x 2 because of 8bpp
-
-const u32 EMERALD_SPRITE_COUNT = 9;
-const u32 METROID_SPRITE_COUNT = 2;
+const u32 PLANE_SPRITE_SIZE = 8;
 
 //A tile is an 8x8 bitmap
 const u32 TILE_SIZE = 8;
@@ -36,7 +32,9 @@ int main()
 	u32 palset_offset = 16;
 
 	//Copy background data into vram & palette ram
-	memcpy((u32*)MEM_VRAM, star_nightTiles, star_nightTilesLen);						//Char block 0
+	//Due to the naming of the maps, this is currently set manually
+	//Consider making a tool to gather all bitmap data and copy via loop instead
+	memcpy((u32*)MEM_VRAM, star_nightTiles, star_nightTilesLen);					//Char block 0
 	memcpy((u32*)(MEM_VRAM + mapset_offset), star_nightMap, star_nightMapLen);		//Screen block 16
 	memcpy(PAL_BG, star_nightPal, star_nightPalLen);
 
@@ -61,10 +59,9 @@ int main()
 	memcpy((u32*)(MEM_VRAM + mapset_offset), city_threeMap, city_threeMapLen);		//Screen block 22
 	memcpy((PAL_BG + (palset_offset * 3)), city_threePal, city_threePalLen);
 
-	//Copy sprite data into vram & palette ram
-	memcpy(VRAM_BLOCK_4, emeraldTiles, emeraldTilesLen);
-	memcpy(VRAM_BLOCK_4 + ((EMERALD_SPRITE_SIZE * EMERALD_SPRITE_COUNT) * TILE_SIZE), metroidTiles, metroidTilesLen);
-	memcpy(PAL_SPRITE, emeraldPal, emeraldPalLen);
+	//Sprite data
+	memcpy(VRAM_BLOCK_4, planeTiles, planeTilesLen);
+	memcpy(PAL_SPRITE, planePal, planePalLen);
 
 	REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(16) | BG_REG_SIZE_64x32 | BG_PRIORITY(3);
 	REG_BG1CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(18) | BG_REG_SIZE_64x32 | BG_PRIORITY(2);
@@ -75,134 +72,79 @@ int main()
 
 	REG_DISPCNT= VMODE_0 | BG_0 | BG_1 | BG_2 | BG_3 | BG_OBJ | OBJ_ENABLE_1D;
 
-	//Set OAM data
-	//Setting 5 objects for now
-	const u32 OBJ_COUNT = 5;
-	for(u32 i = 0; i < OBJ_COUNT; ++i)
-	{
-		set_object_attributes(&obj_buffer[i], 
-			ATTRIB0_8BPP | ATTRIB0_TALL,
-			ATTRIB1_SIZE_16,
-			0);
-		
-		set_object_id(&obj_buffer[i], (i * EMERALD_SPRITE_SIZE));
+	set_object_attributes(&obj_buffer[0],
+		ATTRIB0_WIDE,
+		ATTRIB1_SIZE_16,
+		0);
 
-		const u32 X_OFFSET = 30;
-		set_object_position(&obj_buffer[i], (20 + (X_OFFSET * i)), 0);
-	}
+	set_object_id(&obj_buffer[0], 0);
+	set_object_position(&obj_buffer[0], 20, 60);
 
-	const u32 EMERALD_TILE_COUNT = EMERALD_SPRITE_SIZE * EMERALD_SPRITE_COUNT;
+	memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * 1));
 
-	const u32 OBJ_COUNT_METROID = 2;
-	for(u32 i = 0; i < OBJ_COUNT_METROID; ++i)
-	{
-		set_object_attributes(&obj_buffer[OBJ_COUNT + i], 
-			ATTRIB0_8BPP,
-			ATTRIB1_SIZE_64,
-			0);
-		
-		set_object_id(&obj_buffer[OBJ_COUNT + i], (EMERALD_TILE_COUNT + (i * METROID_SPRITE_SIZE)));
-
-		const u32 X_OFFSET = 64;
-		set_object_position(&obj_buffer[OBJ_COUNT + i], (20 + (X_OFFSET * i)), 70);
-	}
-
-	memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * (OBJ_COUNT + OBJ_COUNT_METROID)));
-
-	s32 x1 = 90, y1 = 60;
-	u32 id = 0;
-	u32 frame_count = 0;
 	u32 sprite_id = 0;
-
+	s32 sprite_x = 20, sprite_y = 60;
+	
 	u32 bg_x = 0, bg_y = 0;
 	u32 bg_x_1 = 0, bg_y_1 = 0;
 	u32 bg_x_2 = 0, bg_y_2 = 0;
 	u32 bg_x_3 = 0, bg_y_3 = 0;
 
-	OBJ_ATTRIBUTE* object1 = &obj_buffer[0];
+	u32 frame_count = 0;
 
-	set_object_position(object1, x1, y1);
+	OBJ_ATTRIBUTE* plane = &obj_buffer[0];
 
 	while(1)
 	{
 		vsync();
 		key_poll();
 
-		//Play animation
-		if(frame_count > 40)
-		{
-			frame_count = 0;
-		}
-		else if(frame_count > 30)
-		{
-			sprite_id = 2;
-		}
-		else if(frame_count > 20)
-		{
-			sprite_id = 0;
-		}
-		else if (frame_count > 10)
-		{
-			sprite_id = 1;
-		}
-		else
-		{
-			sprite_id = 0;
-		}
-
-		if(key_pressed(KEY_LEFT) || key_held(KEY_LEFT))
-		{
-			object1->attrib1 &= ~ATTRIB1_HFLIP;
-			id = 3;
-			x1 += -1;
-
-			bg_x -= 4;
-			bg_x_1 -= 3;
-			bg_x_2 -= 2;
-			bg_x_3 -= 1;
-		}
-		else if(key_pressed(KEY_RIGHT) || key_held(KEY_RIGHT))
-		{
-			object1->attrib1 |= ATTRIB1_HFLIP;
-			id = 3;
-			x1 += 1;
-
-			bg_x += 4;
-			bg_x_1 += 3;
-			bg_x_2 += 2;
-			bg_x_3 += 1;
-		}
+		frame_count++;
 
 		if(key_pressed(KEY_UP) || key_held(KEY_UP))
 		{
-			id = 6;
-			y1 += -1;
+			sprite_id = 2;
+			sprite_y += -1;
 		}
 		else if(key_pressed(KEY_DOWN) || key_held(KEY_DOWN))
 		{
-			id = 0;
-			y1 += 1;
+			sprite_id = 1;
+			sprite_y += 1;
 		}
 
 		if(!is_any_key_pressed())
 		{
 			sprite_id = 0;
-			frame_count = 0;
-		}
-		else
-		{
-			frame_count++;
 		}
 
-		set_object_id(object1, ((id + sprite_id) * EMERALD_SPRITE_SIZE));
-		//set_object_position(object1, x1, y1);
+		if(sprite_y < 0)
+		{
+			sprite_y = 0;
+		}
+		else if(sprite_y > 144)
+		{
+			sprite_y = 144;
+		}
+
+		set_object_id(plane, (sprite_id * PLANE_SPRITE_SIZE));
+		set_object_position(plane, sprite_x, sprite_y);
+
+		bg_x += 1;
+		bg_x_1 += 2;
+		bg_x_2 += 1;
+
+		if(frame_count > 1)
+		{
+			bg_x_3 += 1;
+			frame_count = 0;
+		}
 
 		REG_BG0HOFS = bg_x;
 		REG_BG1HOFS = bg_x_1;
 		REG_BG2HOFS = bg_x_2;
 		REG_BG3HOFS = bg_x_3;
 
-		memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * (OBJ_COUNT + OBJ_COUNT_METROID)));
+		memcpy((OBJ_ATTRIBUTE*)MEM_OAM, &obj_buffer, (sizeof(OBJ_ATTRIBUTE) * 1));
 	}
 
 	return 0;

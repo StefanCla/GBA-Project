@@ -13,6 +13,7 @@
 //Attribute 0
 #define ATTRIB0_HIDE        0x0200
 #define ATTRIB0_TALL		0x8000
+#define ATTRIB0_WIDE        0x4000
 #define ATTRIB0_8BPP        0x2000
 
 //Attribute 1
