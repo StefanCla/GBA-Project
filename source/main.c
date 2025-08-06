@@ -1,12 +1,12 @@
-#include <string.h>			//For memcpy
 #include "core/core.h"
-
-#include "sprites/plane.h"
+#include "map_setup.h"
 
 #include "tiles/star_night.h"
 #include "tiles/city_one.h"
 #include "tiles/city_two.h"
 #include "tiles/city_three.h"
+
+#include "sprites/plane.h"
 
 //grit tile options used
 //-gB4 -m -mLs -mRtpf -ftc -pn16 -mp1
@@ -14,105 +14,6 @@
 u16 key_current = 0, key_previous = 0;
 
 const u32 PLANE_SPRITE_SIZE = 8;
-
-//Should move map-loading stuff to their own respective file next time
-
-//Not entirely sure if I like to store the lengths here
-//As we effectively store it twice
-//But for now, It allows us to loop
-typedef struct
-{
-	u32 tile_len;
-	u32 map_len;
-	u32 pal_len; 
-	u32 index;
-
-	const u32* tile_data;
-	const u16* map_data;
-	const u16* pal_data;
-
-} BACKGROUND_DATA;
-
-BACKGROUND_DATA* backgrounds;
-
-// I dont like that we use index to know which one we set
-// Explore the possibility of malloc here
-// And passed that into load_backgrounds
-BACKGROUND_DATA* new_background_data(
-	const u32* tile_data, u32 tile_len,
-	const u16* map_data, u32 map_len,
-	const u16* pal_data, u32 pal_len,
-	const u32 index)
-{
-	backgrounds[index].tile_data = tile_data;
-	backgrounds[index].tile_len = tile_len;
-
-	backgrounds[index].map_data = map_data;
-	backgrounds[index].map_len = map_len;
-
-	backgrounds[index].pal_data = pal_data;
-	backgrounds[index].pal_len = pal_len;
-
-	backgrounds[index].index = index;
-
-	return &backgrounds[index];
-}
-
-//We need to clear the backgrounds as well, perhaps this could be done via a similar function?
-//Maybe we can pass an array in, either filled or empty, to clear the memory
-void load_backgrounds(u32 total_backgrounds)
-{
-	u32 tileset_offset = 0;
-	u32 mapset_offset = (CHARBLOCK_SIZE * 2);
-	const u16 palset_offset = 16;	//Should not be hardcoded here, but for now we know its 16 always
-
-	for(u32 i = 0; i < total_backgrounds; i++)
-	{
-		BACKGROUND_DATA* background = &backgrounds[i];
-
-		memcpy((u32*)(MEM_VRAM + tileset_offset), background->tile_data, background->tile_len);
-		memcpy((u32*)(MEM_VRAM + mapset_offset), background->map_data, background->map_len);
-		memcpy((u16*)(PAL_BG + (palset_offset * i)), background->pal_data, background->pal_len);
-
-		tileset_offset += background->tile_len;
-		mapset_offset += background->map_len;
-	}
-}
-
-void setup_backgrounds()
-{
-	backgrounds = malloc(4 * sizeof(BACKGROUND_DATA));
-
-	new_background_data(
-		&star_nightTiles, star_nightTilesLen,
-		&star_nightMap, star_nightMapLen,
-		&star_nightPal, star_nightPalLen,
-		0
-	);
-
-	new_background_data(
-		&city_oneTiles, city_oneTilesLen,
-		&city_oneMap, city_oneMapLen,
-		&city_onePal, city_onePalLen,
-		1
-	);
-
-	new_background_data(
-		&city_twoTiles, city_twoTilesLen,
-		&city_twoMap, city_twoMapLen,
-		&city_twoPal, city_twoPalLen,
-		2
-	);
-
-	new_background_data(
-		&city_threeTiles, city_threeTilesLen,
-		&city_threeMap, city_threeMapLen,
-		&city_threePal, city_threePalLen,
-		3
-	);
-
-	load_backgrounds(4);
-}
 
 //A tile is an 8x8 bitmap
 const u32 TILE_SIZE = 8;
@@ -126,7 +27,37 @@ static inline void vsync() //Should be changed to use interrupts
 
 int main()
 {
-	setup_backgrounds();
+	BACKGROUND_DATA* bg_star = new_background_data(
+		&star_nightTiles, star_nightTilesLen,
+		&star_nightMap, star_nightMapLen,
+		&star_nightPal, star_nightPalLen,
+		0
+	);
+    load_background(bg_star);
+
+	BACKGROUND_DATA* bg_city_one = new_background_data(
+		&city_oneTiles, city_oneTilesLen,
+		&city_oneMap, city_oneMapLen,
+		&city_onePal, city_onePalLen,
+		1
+	);
+    load_background(bg_city_one);
+
+	BACKGROUND_DATA* bg_city_two = new_background_data(
+		&city_twoTiles, city_twoTilesLen,
+		&city_twoMap, city_twoMapLen,
+		&city_twoPal, city_twoPalLen,
+		2
+	);
+    load_background(bg_city_two);
+
+	BACKGROUND_DATA* bg_city_three = new_background_data(
+		&city_threeTiles, city_threeTilesLen,
+		&city_threeMap, city_threeMapLen,
+		&city_threePal, city_threePalLen,
+		3
+	);
+    load_background(bg_city_three);
 
 	//Sprite data
 	memcpy(VRAM_BLOCK_4, planeTiles, planeTilesLen);
@@ -163,6 +94,8 @@ int main()
 
 	OBJ_ATTRIBUTE* plane = &obj_buffer[0];
 
+	u32 clear_bg_index = 0;
+
 	while(1)
 	{
 		vsync();
@@ -179,6 +112,16 @@ int main()
 		{
 			sprite_id = 1;
 			sprite_y += 1;
+		}
+
+		//Test deletion of map
+		if(key_pressed(KEY_A))
+		{
+			if(clear_bg_index < 4)
+			{			
+				clear_background(&current_backgrounds[clear_bg_index]);
+				clear_bg_index++;
+			}
 		}
 
 		if(!is_any_key_pressed())
